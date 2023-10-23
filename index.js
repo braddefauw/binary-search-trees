@@ -11,35 +11,38 @@ class Node {
 // create a tree class
 class Tree {
     constructor(dataArray){
-        this.root = this.buildTree(dataArray, 0, dataArray.length -1) //initialize the root using buildTree method
+        this.root = this.buildTree(dataArray) //initialize the root using buildTree method
     }
 
     // helper method to build a balanced binary search tree from an array
-    buildTree(dataArray, start, end) {
-       // if the start index is greater than the end index, return null
-       if (start > end){
-        return null;
+    buildTree(dataArray) {
+       // step 1: sort the array and remove duplicates
+       const sortedUniqueArray = Array.from(new Set(dataArray)).sort((a, b) => a - b)
+
+       // step 2: define a recursive function to bulid the tree
+       function createBST(arr, start, end){
+        if (start > end){
+            return null;
+        }
+
+        // find the middle index
+        const mid = Math.floor((start + end)/ 2);
+
+        // create a new node with the middle element
+        const node = new Node(sortedUniqueArray[mid]);
+
+        //recursively build the left and right subtrees
+        node.left = createBST(arr, start, mid - 1);
+        node.right = createBST(arr, mid + 1, end);
+
+        return node;
        }
-
-       // calculate the middle index to find the middle element
-       const mid = Math.floor((start + end)/2);
-
-       // create a new node using the middle element of the array
-       const node = new Node(dataArray[mid]);
-
-       // recursively build the left subtree from the elements before the middle
-       node.left = this.buildTree(dataArray, start, mid-1);
-
-       // recursively build the right subtree from the elements after the middle
-       node.right = this.buildTree(dataArray, mid + 1, end);
-
-       // return the root node of the balanced tree
-       return node;
+       //step 3: call the rescursive function to build the tree
+       return createBST(sortedUniqueArray, 0, sortedUniqueArray.length -1);
     }
 }
 
 // Example usage:
-const dataArray = [3, 5, 7, 10, 12, 15, 18]; // Sorted and deduplicated data
-const balancedTree = new Tree(dataArray);
-
-console.log(balancedTree.root);
+const dataArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const tree = new Tree(dataArray);
+console.log(tree.root); // Output: The root node of the balanced binary search tree
