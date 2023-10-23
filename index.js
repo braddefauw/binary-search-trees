@@ -11,40 +11,35 @@ class Node {
 // create a tree class
 class Tree {
     constructor(dataArray){
-        this.root = this.buildTree(dataArray) //initialize the root using buildTree method
+        this.root = this.buildTree(dataArray, 0, dataArray.length -1) //initialize the root using buildTree method
     }
 
-    // helper method to build a binary search tree from an array
-    buildTree(dataArray) {
-        // recursive function to insert a value into the tree
-        function insertNode(node, data){
-            if (node === null){
-                return new Node(data) // create a new node if the current node is null
-            }
+    // helper method to build a balanced binary search tree from an array
+    buildTree(dataArray, start, end) {
+       // if the start index is greater than the end index, return null
+       if (start > end){
+        return null;
+       }
 
-            // compare the data and insert it in the left or right subtree
-            if(data < node.data){
-                node.left = insertNode(node.left, data)
-            } else if (data > node.data){
-                node.right = insertNode(node.right, data);
-            }
+       // calculate the middle index to find the middle element
+       const mid = Math.floor((start + end)/2);
 
-            return node;
-        }
-        
-        let root = null; // initialize the root node as null
+       // create a new node using the middle element of the array
+       const node = new Node(dataArray[mid]);
 
-        // insert each value from the dataArray into the tree
-        for(const data of dataArray){
-            root = insertNode(root, data);
-        }
+       // recursively build the left subtree from the elements before the middle
+       node.left = this.buildTree(dataArray, start, mid-1);
 
-        return root;
+       // recursively build the right subtree from the elements after the middle
+       node.right = this.buildTree(dataArray, mid + 1, end);
+
+       // return the root node of the balanced tree
+       return node;
     }
 }
 
 // Example usage:
-const dataArray = [10, 5, 15, 3, 7, 12, 18];
-const binaryTree = new Tree(dataArray);
+const dataArray = [3, 5, 7, 10, 12, 15, 18]; // Sorted and deduplicated data
+const balancedTree = new Tree(dataArray);
 
-console.log(binaryTree.root);
+console.log(balancedTree.root);
