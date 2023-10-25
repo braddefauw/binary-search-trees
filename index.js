@@ -129,6 +129,35 @@ class Tree {
             return this.findNode(node.right, value)
         }
     }
+
+    // iterative level-order traversal
+    levelOrder(callback = null){
+        if(!this.root){
+            return [];
+        }
+
+        const result = [];
+        const queue = [this.root]; // initialize a queue with the root node
+
+        while(queue.length > 0){
+            const currentNode = queue.shift(); // dequeue the front node
+
+            if(callback){
+                callback(currentNode) // call the provided callback function
+            } else {
+                result.push(currentNode.data) // push the current node's data into the result array
+            }
+
+            if (currentNode.left){
+                queue.push(currentNode.left); //enqueue the left child if it exists
+            }
+            if (currentNode.right){
+                queue.push(currentNode.right); //enqueue the right child if it exists
+            }
+        }
+
+        return result;
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -162,3 +191,12 @@ prettyPrint(tree.root);
 // Find a node with the value 8 in the BST
 const nodeToFind = tree.find(8);
 console.log("\nFound Node with Value 8:", nodeToFind); // This will log the found node or null if not found
+
+// Iterative level-order traversal and print values
+tree.levelOrder((node) => {
+    console.log(node.data);
+});
+
+// Iterative level-order traversal and return an array of values
+const valuesArray = tree.levelOrder();
+console.log("Level-Order Values Array:", valuesArray);
