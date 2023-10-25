@@ -109,6 +109,26 @@ class Tree {
         }
         return node.data;
     }
+
+    // find a node with the given value in the BST
+    find(value){
+        return this.findNode(this.root, value)
+    }
+
+    findNode(node, value){
+        // if the current node is null or its data matches the target value, return the current node
+        if(node === null || node.data === value){
+            return node;
+        }
+
+        if(value < node.data){
+            // recursively search in the left subtree
+            return this.findNode(node.left, value)
+        } else {
+            // recursively search in the right subtree
+            return this.findNode(node.right, value)
+        }
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -138,3 +158,7 @@ prettyPrint(tree.root);
 tree.delete(7);
 console.log("\nTree After Deleting 7:");
 prettyPrint(tree.root);
+
+// Find a node with the value 8 in the BST
+const nodeToFind = tree.find(8);
+console.log("\nFound Node with Value 8:", nodeToFind); // This will log the found node or null if not found
