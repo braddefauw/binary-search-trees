@@ -158,6 +158,78 @@ class Tree {
 
         return result;
     }
+
+    // in-order traversal
+    inorder(callback = null){
+        const result = [];
+        this.inorderTraversal(this.root, callback, result);
+        return result;
+        }
+
+        inorderTraversal(node, callback, result){
+            if(node === null){
+                return;
+            }
+
+            // recursively traverse the left subtree
+            this.inorderTraversal(node.left, callback, result);
+            // prrocess the current node
+            if(callback){
+                callback(node) //call the provided callback with the current node
+            } else {
+                result.push(node.data) // add the current node's data to the result array
+            }
+
+            // recursively traverse the right subtree
+            this.inorderTraversal(node.right, callback, result);
+    }
+
+    // pre-order traversal
+    preorder(callback = null){
+        const result = [];
+        this.preorderTraversal(this.root, callback, result);
+        return result;
+    }
+
+    preorderTraversal(node, callback, result){
+        if (node === null){
+            return;
+        }
+        // process the current node
+        if(callback){
+            callback(node); // call the provided callback with the current node
+        } else {
+            result.push(node.data) // add the current node's data to the result array
+        }
+        // recursively traverse the left subtree
+        this.preorderTraversal(node.left, callback, result);
+        // recursively traverse the right subtree
+        this.preorderTraversal(node.right, callback, result);
+    }
+
+    //post-order traversal
+    postorder(callback = null) {
+        const result = [];
+        this.postorderTraversal(this.root, callback, result);
+        return result;
+    }
+
+    postorderTraversal(node, callback, result){
+        if (node === null){
+            return;
+        }
+        
+        // recursively traverse the left subtree
+        this.postorderTraversal(node.left, callback, result);
+        // recursively traverse the right subtree
+        this.postorderTraversal(node.right, callback, result)
+        // process the current node
+        if(callback){
+            callback(node) // call the provided callback with the current node
+        } else {
+            result.push(node.data) // add the current node's data to the result array
+        }
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -200,3 +272,17 @@ tree.levelOrder((node) => {
 // Iterative level-order traversal and return an array of values
 const valuesArray = tree.levelOrder();
 console.log("Level-Order Values Array:", valuesArray);
+
+// In-order traversal and print values
+tree.inorder((node) => {
+    console.log(node.data);
+});
+
+// Pre-order traversal and return an array of values
+const preorderValues = tree.preorder();
+console.log("Pre-Order Values Array:", preorderValues);
+
+// Post-order traversal and print values
+tree.postorder((node) => {
+    console.log(node.data);
+});
