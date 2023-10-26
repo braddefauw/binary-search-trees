@@ -310,6 +310,49 @@ class Tree {
         // the height of the tree rooted at the current node is the maximum of the heights of its subtrees, plus 1
         return Math.max(leftHeight, rightHeight) + 1;
     }
+
+    // rebalance the tree
+    rebalance(){
+        // collect all nodes in sorted order using an in-order traversal
+        const nodes = this.inorderTraversalToArray(this.root);
+
+        // build a new balanced BST from the collected nodes
+        this.root = this.buildTree(nodes);
+
+        return this.root;
+    }
+
+    inorderTraversalToArray(node){
+        const result = [];
+        this.inorderToArray(node, result);
+        return result;
+    }
+
+    inorderToArray(node, result){
+        if (node === null){
+            return;
+        }
+
+        this.inorderToArray(node.left, result);
+        result.push(node);
+        this.inorderToArray(node.right, result);
+    }
+
+    buildTree(nodes){
+        // recursive function to build a balanced binary search tree from an array of nodes
+        if(nodes.length === 0){
+            return null;
+        }
+
+        const mid = Math.floor(nodes.length/2);
+        const root = new Node(nodes[mid]);
+
+        // recursively build left and right subtrees
+        root.left = this.buildTree(nodes.slice(0, mid));
+        root.right = this.buildTree(nodes.slice(mid + 1));
+
+        return root;
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -391,3 +434,14 @@ console.log("Depth of the Node with Value 4:", nodeDepth);
 // Check if the tree is balanced
 const isBalancedAgain = tree.isBalanced();
 console.log("Is the Tree Balanced?", isBalancedAgain);
+
+const newDataArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const unbalancedTree = new Tree(newDataArray);
+
+console.log("Unbalanced Tree:");
+prettyPrint(unbalancedTree.root);
+
+// Rebalance the tree
+unbalancedTree.rebalance();
+console.log("\nRebalanced Tree:");
+prettyPrint(unbalancedTree.root);
