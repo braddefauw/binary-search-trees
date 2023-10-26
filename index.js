@@ -368,6 +368,16 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
+// function to generate an array of random numbers < 100;
+
+function generateRandomNumbersArray(count){
+    const randomNumbers = [];
+    for(let i = 0; i < count; i++){
+        randomNumbers.push(Math.floor(Math.random() * 100));
+    }
+    return randomNumbers;
+}
+
 /* *** EXAMPLE USAGE *** */
 const dataArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(dataArray);
@@ -448,3 +458,63 @@ prettyPrint(unbalancedTree.root);
 
 const isBalancedFinal = unbalancedTree.isBalanced();
 console.log("Is the Tree Balanced?", isBalancedFinal);
+
+/* *** EXAMPLE USAGE 2: RANDOM NUMBERS *** */
+const randomNumbersArray = generateRandomNumbersArray(15);
+const newTree = new Tree(randomNumbersArray);
+
+console.log("Initial Tree:");
+console.log("Is the tree balanced?", newTree.isBalanced());
+
+console.log("In-Order Traversal:");
+newTree.inorder((data) => {
+    console.log(data);
+});
+
+console.log("Pre-Order Traversal:");
+newTree.preorder((data) => {
+    console.log(data);
+});
+
+console.log("Post-Order Traversal:");
+newTree.postorder((data) => {
+    console.log(data);
+});
+
+console.log("Level-Order Traversal:");
+newTree.levelOrder((data) => {
+    console.log(data);
+});
+
+// Unbalance the tree by adding several numbers > 100
+const unbalancedDataArray = randomNumbersArray.concat([105, 110, 115]);
+newTree.root = newTree.buildTree(unbalancedDataArray);
+
+console.log("\nAfter Unbalancing:");
+console.log("Is the tree balanced?", newTree.isBalanced());
+
+// Rebalance the tree
+newTree.rebalance();
+
+console.log("\nAfter Rebalancing:");
+console.log("Is the tree balanced?", newTree.isBalanced());
+
+console.log("In-Order Traversal:");
+newTree.inorder((data) => {
+    console.log(data);
+});
+
+console.log("Pre-Order Traversal:");
+newTree.preorder((data) => {
+    console.log(data);
+});
+
+console.log("Post-Order Traversal:");
+newTree.postorder((data) => {
+    console.log(data);
+});
+
+console.log("Level-Order Traversal:");
+newTree.levelOrder((data) => {
+    console.log(data);
+});
