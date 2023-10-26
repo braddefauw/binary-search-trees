@@ -230,6 +230,23 @@ class Tree {
             result.push(node.data) // add the current node's data to the result array
         }
     }
+
+    height(node){
+        return this.getNodeHeight(node);
+    }
+
+    getNodeHeight(node){
+        if(node === null){
+            return -1; // height of null node is -1 (counting edges)
+        }
+
+        // recursively compute teh height of the left and right subtrees
+        const leftHeight = this.getNodeHeight(node.left);
+        const rightHeight = this.getNodeHeight(node.right);
+
+        // the height of the node is the maximum height of its left or right subtree, plus 1 (for the current node)
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -245,7 +262,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
-// Example usage:
+/* *** EXAMPLE USAGE *** */
 const dataArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(dataArray);
 // call the prettyPrint function with the root of the tree
@@ -286,3 +303,12 @@ console.log("Pre-Order Values Array:", preorderValues);
 tree.postorder((node) => {
     console.log(node.data);
 });
+
+// Get the height of the root node
+const rootHeight = tree.height(tree.root);
+console.log("Height of the Root Node:", rootHeight);
+
+// Get the height of a specific node (e.g., node with value 4)
+const nodeToFindTwo = tree.find(4);
+const nodeHeight = tree.height(nodeToFindTwo);
+console.log("Height of the Node with Value 4:", nodeHeight);
