@@ -247,6 +247,34 @@ class Tree {
         // the height of the node is the maximum height of its left or right subtree, plus 1 (for the current node)
         return Math.max(leftHeight, rightHeight) + 1;
     }
+
+    // get the depth of a node
+    depth(node){
+        return this.getNodeDepth(this.root, node)
+    }
+
+    getNodeDepth(currentNode, targetNode, currentDepth = 0){
+        if (currentNode === null){
+            return -1; // node not found in tree
+        }
+
+        if (currentNode === targetNode){
+            return currentDepth;
+        }
+
+        // recursively search for the node in the left and right subtrees
+        const leftDepth = this.getNodeDepth(currentNode.left, targetNode, currentDepth + 1);
+        if (leftDepth !== -1){
+            return leftDepth; // node found in the left subtree
+        }
+
+        const rightDepth = this.getNodeDepth(currentNode.right, targetNode, currentDepth + 1);
+        if (rightDepth !== -1){
+            return rightDepth; //node found in the right subtree
+        }
+
+        return -1; // node not found in the current subtree
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -312,3 +340,12 @@ console.log("Height of the Root Node:", rootHeight);
 const nodeToFindTwo = tree.find(4);
 const nodeHeight = tree.height(nodeToFindTwo);
 console.log("Height of the Node with Value 4:", nodeHeight);
+
+// Get the depth of the root node (it should be 0)
+const rootDepth = tree.depth(tree.root);
+console.log("Depth of the Root Node:", rootDepth);
+
+// Get the depth of a specific node (e.g., node with value 4)
+const nodeToFindThree = tree.find(4);
+const nodeDepth = tree.depth(nodeToFindThree);
+console.log("Depth of the Node with Value 4:", nodeDepth);
