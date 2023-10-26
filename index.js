@@ -445,3 +445,6 @@ prettyPrint(unbalancedTree.root);
 unbalancedTree.rebalance();
 console.log("\nRebalanced Tree:");
 prettyPrint(unbalancedTree.root);
+
+const isBalancedFinal = unbalancedTree.isBalanced();
+console.log("Is the Tree Balanced?", isBalancedFinal);
