@@ -275,6 +275,41 @@ class Tree {
 
         return -1; // node not found in the current subtree
     }
+
+    // check if the tree is balanced
+    isBalanced(){
+        return this.checkBalanced(this.root);
+    }
+
+    checkBalanced(node){
+        if(node === null){
+            return true; //an empty tree is always balanced
+        }
+
+        // calculate the heights of the left and right subtrees
+        const leftHeight = this.getHeight(node.left);
+        const rightHeight = this.getHeight(node.right);
+
+        // check if the tree rooted at the current node is balanced
+        if(Math.abs(leftHeight - rightHeight) <= 1 && this.checkBalanced(node.left) && this.checkBalanced(node.right)) {
+            return true;
+        }
+
+        return false; // the tree is not balanced
+    }
+
+    getHeight(node){
+        if (node === null){
+            return 0; // the height of an empty tree is 0
+        }
+
+        // recursively calcualte the height
+        const leftHeight = this.getHeight(node.left);
+        const rightHeight = this.getHeight(node.right);
+
+        // the height of the tree rooted at the current node is the maximum of the heights of its subtrees, plus 1
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -293,6 +328,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 /* *** EXAMPLE USAGE *** */
 const dataArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(dataArray);
+// Check if the tree is balanced
+const isBalanced = tree.isBalanced();
+console.log("Is the Tree Balanced?", isBalanced);
 // call the prettyPrint function with the root of the tree
 prettyPrint(tree.root)
 // Insert a new value (e.g., 20) into the BST
@@ -349,3 +387,7 @@ console.log("Depth of the Root Node:", rootDepth);
 const nodeToFindThree = tree.find(4);
 const nodeDepth = tree.depth(nodeToFindThree);
 console.log("Depth of the Node with Value 4:", nodeDepth);
+
+// Check if the tree is balanced
+const isBalancedAgain = tree.isBalanced();
+console.log("Is the Tree Balanced?", isBalancedAgain);
